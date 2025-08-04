@@ -16,7 +16,7 @@ def amplitudes_visualisation(statevector, label):
         print(f"|{binary}⟩: {amp_str}")
 
 def build_grover_circuit(target):
-    n = 4                               #number of qubits
+    n = 4   
     qc = QuantumCircuit(n, n)
 
     qc.h(range(n))
