@@ -5,7 +5,7 @@ from qiskit.visualization import plot_histogram
 import matplotlib.pyplot as plt
 
 def amplitudes_visualisation(statevector, label):
-    print(f"\n🌀 {label}")
+    print(f"\n {label}")
     amplitudes = statevector.data
     n = statevector.num_qubits
     for i, amp in enumerate(amplitudes):
