@@ -1,0 +1,17 @@
+[
+  {
+    "level": 1,
+    "clue": "The PIN is symmetric.",
+    "target": "0110"
+  },
+  {
+    "level": 2,
+    "clue": "The PIN is odd in both halves.",
+    "target": "1001"
+  },
+  {
+    "level": 3,
+    "clue": "Half 1s, half 0s.",
+    "target": "1010"
+  }
+]
