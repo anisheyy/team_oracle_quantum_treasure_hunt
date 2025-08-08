@@ -89,7 +89,7 @@ def build_grover_circuit(target):
 # --- Run + Plot ---
 if run_button and pin:
     if len(pin) == 4 and set(pin).issubset({'0', '1'}):
-        with st.spinner("Crunching qubits ✨"):
+        with st.spinner("Crunching qubits"):
             counts = build_grover_circuit(pin)
             st.success("Done! Here's your result:")
             fig = plot_histogram(counts)
