@@ -5,6 +5,8 @@ from quantum_levels import generate_target, build_grover_circuit
 from qiskit.visualization import plot_histogram
 from qiskit.quantum_info import Statevector
 import io
+from quantum_levels import generate_target, build_grover_circuit
+
 
 st.set_page_config(page_title="Quantum Treasure Hunt", layout="centered")
 st.title("Quantum Treasure Hunt")
