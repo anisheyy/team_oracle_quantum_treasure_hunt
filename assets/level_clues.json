@@ -1,17 +1,27 @@
 [
   {
     "level": 1,
-    "clue": "The PIN is symmetric.",
-    "target": "0110"
+    "clue": "The PIN is symmetric (first two bits same as last two bits).",
+    "rule": "symmetric"
   },
   {
     "level": 2,
-    "clue": "The PIN is odd in both halves.",
-    "target": "1001"
+    "clue": "The PIN starts and ends with 1.",
+    "rule": "start_end_1"
   },
   {
     "level": 3,
     "clue": "Half 1s, half 0s.",
-    "target": "1010"
+    "rule": "half_half"
+  },
+  {
+    "level": 4,
+    "clue": "The PIN has exactly one '1'.",
+    "rule": "one_one"
+  },
+  {
+    "level": 5,
+    "clue": "The PIN alternates between 1 and 0.",
+    "rule": "alternating"
   }
 ]
