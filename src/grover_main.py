@@ -6,7 +6,6 @@ from qiskit.visualization import plot_histogram
 import matplotlib.pyplot as plt
 import io
 
-# --- Page Setup ---
 st.set_page_config(page_title="Quantum Treasure Hunt", layout="centered")
 st.title("Quantum Treasure Hunt")
 st.caption("by Team Oracle - Uunchai '25")
@@ -24,7 +23,6 @@ pin = st.text_input("Example: 1010", max_chars=4)
 show_amplitudes = st.checkbox("Show amplitude evolution")
 run_button = st.button("Run Grover’s Algorithm")
 
-# --- Amplitude Logger ---
 def amplitudes_visualisation(statevector, label):
     st.markdown(f"**{label}**")
     amps = statevector.data
@@ -35,7 +33,6 @@ def amplitudes_visualisation(statevector, label):
     }
     st.json(amp_table)
 
-# --- Grover's Circuit ---
 def build_grover_circuit(target):
     n = 4
     qc = QuantumCircuit(n, n)
@@ -86,16 +83,15 @@ def build_grover_circuit(target):
     counts = result.get_counts()
     return counts
 
-# --- Run + Plot ---
 if run_button and pin:
     if len(pin) == 4 and set(pin).issubset({'0', '1'}):
-        with st.spinner("Crunching qubits ✨"):
+        with st.spinner("Crunching qubits"):
             counts = build_grover_circuit(pin)
             st.success("Done! Here's your result:")
             fig = plot_histogram(counts)
             buf = io.BytesIO()
             fig.savefig(buf, format="png")
-            st.image(buf, caption="🔬 Measurement Outcome", use_container_width=True)
+            st.image(buf, caption="Measurement Outcome", use_container_width=True)
             most_likely = max(counts, key=counts.get)
             st.markdown(f"**Most likely result: `{most_likely}`**")
     else:
