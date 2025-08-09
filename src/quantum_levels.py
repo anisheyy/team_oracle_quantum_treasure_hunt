@@ -1,21 +1,32 @@
+import random
 from qiskit import QuantumCircuit
-from qiskit.quantum_info import Statevector
 from qiskit_aer import AerSimulator
-import numpy as np
+from qiskit.quantum_info import Statevector
 
+def generate_target(rule):
+    """Generates a random 4-bit binary string based on a clue rule."""
+    pins = []
 
-def amplitudes_visualisation(statevector):
-    amplitudes = statevector.data
-    n = statevector.num_qubits
-    output = []
-    for i, amp in enumerate(amplitudes):
-        binary = format(i, f'0{n}b')
-        real = round(amp.real, 4)
-        imag = round(amp.imag, 4)
-        amp_str = f"{real}" if imag == 0 else f"{real} + {imag}i"
-        output.append((binary, amp_str))
-    return output
+    if rule == "symmetric":
+        for a in ['0', '1']:
+            for b in ['0', '1']:
+                pins.append(a + b + a + b)
 
+    elif rule == "start_end_1":
+        for b in ['0', '1']:
+            for c in ['0', '1']:
+                pins.append("1" + b + c + "1")
+
+    elif rule == "half_half":
+        pins = [p for p in [format(i, '04b') for i in range(16)] if p.count('1') == 2]
+
+    elif rule == "one_one":
+        pins = [p for p in [format(i, '04b') for i in range(16)] if p.count('1') == 1]
+
+    elif rule == "alternating":
+        pins = ["1010", "0101"]
+
+    return random.choice(pins)
 
 def build_grover_circuit(target):
     n = 4
@@ -34,8 +45,6 @@ def build_grover_circuit(target):
             if bit == '0':
                 qc.x(i)
 
-    apply_oracle(qc, target)
-
     def diffuser(qc):
         qc.h(range(n))
         qc.x(range(n))
@@ -45,9 +54,9 @@ def build_grover_circuit(target):
         qc.x(range(n))
         qc.h(range(n))
 
+    apply_oracle(qc, target)
     diffuser(qc)
 
-    # Run extra Grover iterations if needed (usually 1 or 2 for 16 states)
     for _ in range(1):
         apply_oracle(qc, target)
         diffuser(qc)
@@ -57,5 +66,4 @@ def build_grover_circuit(target):
     sim = AerSimulator()
     result = sim.run(qc, shots=1024).result()
     counts = result.get_counts()
-
     return counts
