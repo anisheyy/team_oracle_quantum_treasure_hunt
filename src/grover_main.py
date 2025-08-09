@@ -91,7 +91,7 @@ if run_button and pin:
             fig = plot_histogram(counts)
             buf = io.BytesIO()
             fig.savefig(buf, format="png")
-            st.image(buf, caption="🔬 Measurement Outcome", use_container_width=True)
+            st.image(buf, caption="Measurement Outcome", use_container_width=True)
             most_likely = max(counts, key=counts.get)
             st.markdown(f"**Most likely result: `{most_likely}`**")
     else:
