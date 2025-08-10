@@ -11,12 +11,17 @@ from quantum_levels import generate_target, build_grover_circuit
 st.set_page_config(page_title="Quantum Treasure Hunt", layout="centered")
 st.title("Quantum Treasure Hunt")
 st.caption("by Team Oracle – Uunchai '25")
+st.markdown("""
+Welcome to the **Quantum Treasure Hunt**!  
+Crack a secret 4-bit PIN using clues and a quantum algorithm.  
+""")
+
 
 with st.expander("What is Grover's Algorithm?"):
     st.markdown("""
     Imagine you’re looking for a treasure in **1 out of N boxes**.  
     - **Classically**: You check each box one by one → takes about `N/2` tries.  
-    - **Grover’s Algorithm**: Uses quantum superposition & interference → finds the right box in only about `√N` tries**!  
+    - **Grover’s Algorithm**: Uses quantum superposition & interference → finds the right box in only about `√N` tries!  
     
     Here, our *treasure* is a secret 4-bit PIN (like `0110`).  
     Grover’s algorithm *amplifies* the probability of the correct PIN so it shows up most often when we measure.
@@ -25,16 +30,21 @@ with st.expander("What is Grover's Algorithm?"):
 with open("assets/level_clues.json", "r") as f:
     levels = json.load(f)
 
-level_options = [f"Level {lvl['level']}" for lvl in levels]
-selected_level_str = st.selectbox("Choose your level", level_options)
-current_level = next(lvl for lvl in levels if f"Level {lvl['level']}" == selected_level_str)
+with st.container():
+    st.subheader("Mission Control")
+    st.write("Use the clue to figure out the secret 4-bit PIN.")
 
-target_pin = generate_target(current_level["rule"])
+    level_options = [f"Level {lvl['level']}" for lvl in levels]
+    selected_level_str = st.selectbox("Choose your level", level_options)
+    current_level = next(lvl for lvl in levels if f"Level {lvl['level']}" == selected_level_str)
 
-st.markdown(f"### Clue: {current_level['clue']}")
+    target_pin = generate_target(current_level["rule"])
 
-user_guess = st.text_input("Enter your 4-bit guess (e.g., 0110):", max_chars=4)
-show_amplitudes = st.checkbox("Show amplitude evolution (for the quantum nerds)")
+    st.markdown(f"### Clue: {current_level['clue']}")
+
+    user_guess = st.text_input("Enter your 4-bit guess (e.g., 0110):", max_chars=4)
+    show_amplitudes = st.checkbox("Show amplitude evolution (for the quantum nerds)")
+
 
 def amplitudes_visualisation(statevector, label):
     st.markdown(f"**{label}**")
@@ -87,7 +97,6 @@ def build_grover_circuit_verbose(target, show_amps=False):
         state = Statevector.from_instruction(qc)
         amplitudes_visualisation(state, "Step 3: After Diffusion")
 
-    # One more Grover iteration
     apply_oracle(qc, target)
     diffuser(qc)
 
